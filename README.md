@@ -23,7 +23,7 @@ repository does not include a commerce backend or payment processing.
 - Firebase Auth, Cloud Firestore, and Firebase Storage
 - Google Sign-In
 - GetStorage for local preferences
-- Material 3 theming with Poppins fonts and Iconsax icons
+- Material 3 theming with Poppins fonts and Iconsax icons from `iconsax_flutter`
 
 ## Getting started
 
@@ -63,6 +63,10 @@ The HTTP helper and API constants are placeholders:
 
 No backend integration is implemented behind these placeholders.
 
+Firestore and Storage security rules are not part of this repository. Before deploying,
+review the rules configured in the Firebase console and restrict `Users` records and
+profile images to their authenticated owner.
+
 ## Testing
 
 ```bash
@@ -75,20 +79,18 @@ tab count, and onboarding layout.
 
 ## Web build
 
-The `iconsax` package contains invalid icon codepoints (`0x0`, `0x1`, and others), so the
-default icon tree shaker rejects the release build. Build with icon tree shaking disabled:
-
 ```bash
-flutter build web --release --no-tree-shake-icons
+flutter build web --release
 ```
 
-The output is written to `build/web`. Disabling tree shaking keeps the full icon fonts in
-the bundle, which makes the web assets larger. Replace or patch `iconsax` before removing
-this flag.
+The output is written to `build/web`. The project uses `iconsax_flutter`, which supports
+Flutter icon tree shaking, so the previous `--no-tree-shake-icons` workaround is no longer
+needed. The Iconsax font is reduced from 670,228 bytes to 12,028 bytes in the release
+build.
 
 ## Platform verification status
 
-- Web release build was verified with `--no-tree-shake-icons`.
+- Web release build was verified with the standard icon tree shaker.
 - `flutter analyze` and `flutter test` are clean.
 - Android and iOS builds were not verified in this environment because Android SDK/Java
   and Xcode are unavailable.
