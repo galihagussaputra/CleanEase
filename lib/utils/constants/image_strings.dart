@@ -82,10 +82,13 @@ class AppImages {
   static const String product30 = "";
 
   // Payment
-  static const String bankTransfer = "";
-  static const String creditCard = "";
-  static const String paypal = "";
-  static const String COD = "";
+  static const String bankTransfer =
+      "assets/icons/payment_methods/paystack.png";
+  static const String creditCard =
+      "assets/icons/payment_methods/credit-card.png";
+  static const String paypal = "assets/icons/payment_methods/paypal.png";
+  static const String cod =
+      "assets/icons/payment_methods/successful_payment_icon.png";
 
   static const String docerAnimation =
       "assets/images/animations/141594-animation-of-docer.json";

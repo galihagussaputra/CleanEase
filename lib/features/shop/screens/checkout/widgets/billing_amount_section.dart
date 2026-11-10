@@ -43,7 +43,7 @@ class AppBillingAmountSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Total Order', style: Theme.of(context).textTheme.bodyMedium),
-            Text('Rp 25', style: Theme.of(context).textTheme.titleMedium),
+            Text('Rp 295', style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
       ],
