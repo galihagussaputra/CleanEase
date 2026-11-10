@@ -12,7 +12,9 @@ class AppSocialButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
+    final controller = Get.isRegistered<LoginController>()
+        ? LoginController.instance
+        : Get.put(LoginController());
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

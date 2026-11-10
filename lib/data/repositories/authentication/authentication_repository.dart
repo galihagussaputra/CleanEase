@@ -87,7 +87,9 @@ class AuthenticationRepository extends GetxController {
   // Email Verify
   Future<void> sendEmailVerification() async {
     try {
-      await _auth.currentUser?.sendEmailVerification();
+      final user = _auth.currentUser;
+      if (user == null || user.emailVerified) return;
+      await user.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       throw AppFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -135,7 +137,7 @@ class AuthenticationRepository extends GetxController {
       throw AppPlatformException(e.code).message;
     } catch (e) {
       if (kDebugMode) print('Something went wrong: $e');
-      return;
+      throw 'Something went wrong. Please try again.';
     }
   }
 
@@ -143,10 +145,10 @@ class AuthenticationRepository extends GetxController {
   Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await userAccount?.authentication;
+      if (userAccount == null) return null;
+      final googleAuth = await userAccount.authentication;
       final credentials = GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
       return await _auth.signInWithCredential(credentials);
     } on FirebaseAuthException catch (e) {
       throw AppFirebaseAuthException(e.code).message;
@@ -184,8 +186,10 @@ class AuthenticationRepository extends GetxController {
   // delete account
   Future<void> deleteAccount() async {
     try {
-      await UserRepository.instance.removeUserRecord(_auth.currentUser!.uid);
-      await _auth.currentUser?.delete();
+      final user = _auth.currentUser;
+      if (user == null) return;
+      await UserRepository.instance.removeUserRecord(user.uid);
+      await user.delete();
     } on FirebaseAuthException catch (e) {
       throw AppFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {

@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
+  static LoginController get instance => Get.find();
+
   // Variable
   final rememberMe = false.obs;
   final hidePassword = true.obs;
@@ -16,12 +18,15 @@ class LoginController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-  final userController = Get.put(UserController());
+  final userController = Get.isRegistered<UserController>()
+      ? UserController.instance
+      : Get.put(UserController());
 
   @override
   void onInit() {
-    email.text = localStorage.read('REMEMBER_ME_EMAIL');
-    // password.text = localStorage.read('REMEMBER_ME_PASSWORD');
+    final savedEmail = localStorage.read<String>('REMEMBER_ME_EMAIL') ?? '';
+    email.text = savedEmail;
+    rememberMe.value = savedEmail.isNotEmpty;
     super.onInit();
   }
 
@@ -43,7 +48,8 @@ class LoginController extends GetxController {
 
       if (rememberMe.value) {
         localStorage.write('REMEMBER_ME_EMAIL', email.text.trim());
-        localStorage.write('REMEMBER_ME_EMAIL', password.text.trim());
+      } else {
+        localStorage.remove('REMEMBER_ME_EMAIL');
       }
 
       // ignore: unused_local_variable

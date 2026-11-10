@@ -65,7 +65,7 @@ class UserController extends GetxController {
                 nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '',
             username: username,
             email: userCredentials.user!.email ?? '',
-            phoneNumber: userCredentials.user!.email ?? '',
+            phoneNumber: userCredentials.user!.phoneNumber ?? '',
             profilePicture: userCredentials.user!.photoURL ?? '',
           );
 
@@ -102,25 +102,39 @@ class UserController extends GetxController {
     );
   }
 
-  void deleteUserAccount() async {
+  Future<void> deleteUserAccount() async {
     try {
       AppFullScreenLoader.openLoadingDialog(
           'Processing', AppImages.docerAnimation);
 
       final auth = AuthenticationRepository.instance;
-      final provider =
-          auth.authUser!.providerData.map((e) => e.providerId).first;
+      final currentUser = auth.authUser;
+      if (currentUser == null) {
+        AppFullScreenLoader.stopLoading();
+        return;
+      }
 
-      if (provider.isNotEmpty) {
-        if (provider == 'google.com') {
-          await auth.signInWithGoogle();
-          await auth.deleteAccount();
+      final providers =
+          currentUser.providerData.map((e) => e.providerId).toList();
+
+      if (providers.contains(GoogleAuthProvider.PROVIDER_ID)) {
+        final credentials = await auth.signInWithGoogle();
+        if (credentials == null) {
           AppFullScreenLoader.stopLoading();
-          Get.offAll(() => const LoginScreen());
-        } else if (provider == 'password') {
-          AppFullScreenLoader.stopLoading();
-          Get.to(() => const ReAuthenticateUserLoginForm());
+          return;
         }
+        await auth.deleteAccount();
+        AppFullScreenLoader.stopLoading();
+        Get.offAll(() => const LoginScreen());
+      } else if (providers.contains(EmailAuthProvider.PROVIDER_ID)) {
+        AppFullScreenLoader.stopLoading();
+        Get.to(() => const ReAuthenticateUserLoginForm());
+      } else {
+        AppFullScreenLoader.stopLoading();
+        AppLoaders.warningSnackBar(
+            title: 'Unsupported account',
+            message:
+                'This sign-in provider is not supported for account deletion.');
       }
     } catch (e) {
       AppFullScreenLoader.stopLoading();
@@ -148,6 +162,7 @@ class UserController extends GetxController {
           .reAuthenticateWithEmailAndPassword(
               verifyEmail.text.trim(), verifyPassword.text.trim());
       await AuthenticationRepository.instance.deleteAccount();
+      verifyPassword.clear();
       AppFullScreenLoader.stopLoading();
       Get.offAll(() => const LoginScreen());
     } catch (e) {

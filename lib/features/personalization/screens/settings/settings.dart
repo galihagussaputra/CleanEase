@@ -3,12 +3,13 @@ import 'package:clean_ease/common/widgets/custom_shapes/containers/primary_heade
 import 'package:clean_ease/common/widgets/list_title/setting_menu_title.dart';
 import 'package:clean_ease/common/widgets/list_title/user_profile_title.dart';
 import 'package:clean_ease/common/widgets/texts/section_heading.dart';
-import 'package:clean_ease/features/authentication/screens/login/login.dart';
+import 'package:clean_ease/data/repositories/authentication/authentication_repository.dart';
 import 'package:clean_ease/features/personalization/screens/address/address.dart';
 import 'package:clean_ease/features/personalization/screens/profile/profile.dart';
 import 'package:clean_ease/features/shop/screens/order/order.dart';
 import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
+import 'package:clean_ease/utils/popups/loaders.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -122,7 +123,14 @@ class SettingScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                        onPressed: () => Get.to(() => const LoginScreen()),
+                        onPressed: () async {
+                          try {
+                            await AuthenticationRepository.instance.logout();
+                          } catch (e) {
+                            AppLoaders.errorSnackBar(
+                                title: 'Oh Snap', message: e.toString());
+                          }
+                        },
                         child: const Text('Logout')),
                   ),
                   const SizedBox(height: AppSize.spaceBtwSections * 2.5),

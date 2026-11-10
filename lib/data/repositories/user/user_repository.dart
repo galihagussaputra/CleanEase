@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:clean_ease/data/repositories/authentication/authentication_repository.dart';
 import 'package:clean_ease/features/personalization/models/user_model.dart';
 import 'package:clean_ease/utils/exceptions/firebase_exceptions.dart';
@@ -109,7 +107,7 @@ class UserRepository extends GetxController {
   Future<String> uploadImage(String path, XFile image) async {
     try {
       final ref = FirebaseStorage.instance.ref(path).child(image.name);
-      await ref.putFile(File(image.path));
+      await ref.putData(await image.readAsBytes());
       final url = await ref.getDownloadURL();
       return url;
     } on FirebaseException catch (e) {

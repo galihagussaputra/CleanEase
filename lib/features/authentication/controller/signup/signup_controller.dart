@@ -43,6 +43,7 @@ class SignupController extends GetxController {
 
       // Privacy policy
       if (!privacyPolicy.value) {
+        AppFullScreenLoader.stopLoading();
         AppLoaders.warningSnackBar(
             title: 'Accept Privacy Policy',
             message:

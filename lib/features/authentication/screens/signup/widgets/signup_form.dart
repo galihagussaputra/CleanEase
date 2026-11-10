@@ -80,7 +80,8 @@ class AppSignupForm extends StatelessWidget {
           // Password
           Obx(
             () => TextFormField(
-              validator: (value) => AppValidator.validatePassword(value),
+              validator: (value) =>
+                  AppValidator.validateStrongPassword(value),
               controller: controller.password,
               obscureText: controller.hidePassword.value,
               decoration: InputDecoration(

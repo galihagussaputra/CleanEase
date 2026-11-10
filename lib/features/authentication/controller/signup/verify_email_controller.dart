@@ -11,6 +11,9 @@ import 'package:get/get.dart';
 class VerifyEmailController extends GetxController {
   static VerifyEmailController get instance => Get.find();
 
+  Timer? _timer;
+  bool _isRedirecting = false;
+
   @override
   void onInit() {
     sendEmailVerification();
@@ -18,25 +21,36 @@ class VerifyEmailController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    _timer?.cancel();
+    super.onClose();
+  }
+
   // send mail verify
-  sendEmailVerification() async {
+  Future<void> sendEmailVerification() async {
     try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null || user.emailVerified) return;
+
       await AuthenticationRepository.instance.sendEmailVerification();
-      AppLoaders.errorSnackBar(
-          title: 'Email sent', message: 'Please Check your inbox and verify');
+      AppLoaders.successSnackBar(
+          title: 'Email sent', message: 'Please check your inbox and verify');
     } catch (e) {
       AppLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }
   }
 
   // timer
-  setTimerForAutoRedirect() {
-    Timer.periodic(
+  void setTimerForAutoRedirect() {
+    _timer?.cancel();
+    _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) async {
         await FirebaseAuth.instance.currentUser?.reload();
         final user = FirebaseAuth.instance.currentUser;
-        if (user?.emailVerified ?? false) {
+        if ((user?.emailVerified ?? false) && !_isRedirecting) {
+          _isRedirecting = true;
           timer.cancel();
           Get.off(
             () => SuccessScreen(
@@ -52,9 +66,11 @@ class VerifyEmailController extends GetxController {
     );
   }
 
-  checkEmailVerificationStatus() async {
+  Future<void> checkEmailVerificationStatus() async {
     final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null && currentUser.emailVerified) {
+    if (currentUser != null && currentUser.emailVerified && !_isRedirecting) {
+      _isRedirecting = true;
+      _timer?.cancel();
       Get.off(
         () => SuccessScreen(
           image: AppImages.staticSuccessIllustration,

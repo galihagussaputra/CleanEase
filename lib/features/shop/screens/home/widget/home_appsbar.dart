@@ -14,7 +14,9 @@ class AppHomeAppsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UserController());
+    final controller = Get.isRegistered<UserController>()
+        ? UserController.instance
+        : Get.put(UserController());
     return AppsBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

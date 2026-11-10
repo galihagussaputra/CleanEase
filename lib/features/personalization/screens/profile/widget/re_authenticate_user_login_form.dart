@@ -40,8 +40,11 @@ class ReAuthenticateUserLoginForm extends StatelessWidget {
                         labelText: AppTexts.password,
                         prefixIcon: const Icon(Iconsax.direct_right),
                         suffixIcon: IconButton(
-                          onPressed: () => controller.hidePassword.value,
-                          icon: const Icon(Iconsax.eye_slash),
+                          onPressed: () => controller.hidePassword.value =
+                              !controller.hidePassword.value,
+                          icon: Icon(controller.hidePassword.value
+                              ? Iconsax.eye_slash
+                              : Iconsax.eye),
                         ),
                       ),
                     ),
