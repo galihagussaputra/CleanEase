@@ -141,6 +141,34 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
+  // Re-authenticate Google user without switching accounts
+  Future<bool> reAuthenticateWithGoogle() async {
+    try {
+      final currentUser = _auth.currentUser;
+      if (currentUser == null) return false;
+
+      final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
+      if (userAccount == null) return false;
+
+      final googleAuth = await userAccount.authentication;
+      final credentials = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      await currentUser.reauthenticateWithCredential(credentials);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      throw AppFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw AppFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const AppFormatException();
+    } on PlatformException catch (e) {
+      throw AppPlatformException(e.code).message;
+    } catch (e) {
+      if (kDebugMode) print('Something went wrong: $e');
+      throw 'Something went wrong. Please try again.';
+    }
+  }
+
   // Google Login
   Future<UserCredential?> signInWithGoogle() async {
     try {

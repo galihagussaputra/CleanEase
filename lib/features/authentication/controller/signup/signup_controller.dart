@@ -68,7 +68,17 @@ class SignupController extends GetxController {
       );
 
       final userRepository = Get.put(UserRepository());
-      await userRepository.saveUserRecord(newUser);
+      try {
+        await userRepository.saveUserRecord(newUser);
+      } catch (_) {
+        try {
+          await userRepository.removeUserRecord(newUser.id);
+        } catch (_) {}
+        try {
+          await userCredential.user?.delete();
+        } catch (_) {}
+        rethrow;
+      }
 
       // Remove loader
       AppFullScreenLoader.stopLoading();

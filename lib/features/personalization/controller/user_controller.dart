@@ -118,8 +118,8 @@ class UserController extends GetxController {
           currentUser.providerData.map((e) => e.providerId).toList();
 
       if (providers.contains(GoogleAuthProvider.PROVIDER_ID)) {
-        final credentials = await auth.signInWithGoogle();
-        if (credentials == null) {
+        final reauthenticated = await auth.reAuthenticateWithGoogle();
+        if (!reauthenticated) {
           AppFullScreenLoader.stopLoading();
           return;
         }
