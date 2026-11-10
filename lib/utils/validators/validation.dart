@@ -1,7 +1,7 @@
 class AppValidator {
   // Empty Validator
   static String? validateEmptyText(String? fieldName, String? value) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.trim().isEmpty) {
       return '$fieldName is required.';
     }
 
@@ -13,9 +13,9 @@ class AppValidator {
       return 'Email is required';
     }
 
-    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final emailRegExp = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
-    if (!emailRegExp.hasMatch(value)) {
+    if (!emailRegExp.hasMatch(value.trim())) {
       return 'Invalid Email Address';
     }
 
@@ -31,28 +31,40 @@ class AppValidator {
       return 'Password must be at least 6 characters.';
     }
 
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Password must contain at lest one Uppercase letter.';
+    return null;
+  }
+
+  static String? validateStrongPassword(String? value) {
+    final requiredError = validatePassword(value);
+    if (requiredError != null) return requiredError;
+    final password = value!;
+
+    if (!password.contains(RegExp(r'[A-Z]'))) {
+      return 'Password must contain at least one uppercase letter.';
     }
 
-    if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'Password must contain at lest one number.';
+    if (!password.contains(RegExp(r'[0-9]'))) {
+      return 'Password must contain at least one number.';
     }
 
-    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return 'Password must contain at lest one special character.';
+    if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return 'Password must contain at least one special character.';
     }
 
     return null;
   }
 
   static String? validatePhoneNumber(String? value) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.trim().isEmpty) {
       return 'Phone number is required.';
     }
 
-    final phoneRegExp = RegExp(r'^\d{10}$');
-    if (!phoneRegExp.hasMatch(value)) {
+    if (!RegExp(r'^\+?[\d\s()\-]+$').hasMatch(value.trim())) {
+      return 'Invalid phone number';
+    }
+
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length < 8 || digits.length > 15) {
       return 'Invalid phone number';
     }
 

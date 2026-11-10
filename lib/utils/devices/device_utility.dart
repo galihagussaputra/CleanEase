@@ -18,13 +18,11 @@ class AppDeviceUtils {
   }
 
   static bool isLandscapeOrientation(BuildContext context) {
-    final viewInsets = View.of(context).viewInsets;
-    return viewInsets.bottom == 0;
+    return MediaQuery.orientationOf(context) == Orientation.landscape;
   }
 
   static bool isPortraitOrientation(BuildContext context) {
-    final viewInsets = View.of(context).viewInsets;
-    return viewInsets.bottom != 0;
+    return MediaQuery.orientationOf(context) == Orientation.portrait;
   }
 
   static void setFullScreen(bool enable) {
@@ -92,7 +90,7 @@ class AppDeviceUtils {
 
   static Future<bool> hasInternetConnection() async {
     try {
-      final result = await InternetAddress.lookup('http://localhost:58130/');
+      final result = await InternetAddress.lookup('example.com');
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
     } on SocketException catch (_) {
       return false;
@@ -107,11 +105,11 @@ class AppDeviceUtils {
     return Platform.isAndroid;
   }
 
-  static void launchUrl(String url) async {
+  static Future<void> launchUrl(String url) async {
     if (await canLaunchUrlString(url)) {
       await launchUrlString(url);
     } else {
-      throw 'Could not launch $url';
+      throw Exception('Could not launch $url');
     }
   }
 }

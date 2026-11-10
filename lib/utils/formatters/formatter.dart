@@ -22,21 +22,24 @@ class AppFormatter {
 
   static String internationalFormatPhoneNumber(String phoneNumber) {
     var digitsOnly = phoneNumber.replaceAll(RegExp(r'\D'), '');
+    if (digitsOnly.length < 4) return phoneNumber;
 
-    String countryCode = '+${digitsOnly.substring(0, 2)}';
-    digitsOnly = digitsOnly.substring(2);
+    final countryCodeLength = digitsOnly.startsWith('1') ? 1 : 2;
+    final countryCode = '+${digitsOnly.substring(0, countryCodeLength)}';
+    digitsOnly = digitsOnly.substring(countryCodeLength);
+
+    if (countryCode == '+1' && digitsOnly.length == 10) {
+      return '(+1) ${digitsOnly.substring(0, 3)} '
+          '${digitsOnly.substring(3, 6)} ${digitsOnly.substring(6)}';
+    }
 
     final formattedNumber = StringBuffer();
-    formattedNumber.write('($countryCode)');
+    formattedNumber.write('($countryCode) ');
 
     int i = 0;
     while (i < digitsOnly.length) {
-      int groupLength = 2;
-      if (i == 0 && countryCode == '+1') {
-        groupLength = 3;
-      }
-
-      int end = i + groupLength;
+      final end =
+          i + 2 < digitsOnly.length ? i + 2 : digitsOnly.length;
       formattedNumber.write(digitsOnly.substring(i, end));
 
       if (end < digitsOnly.length) {
@@ -44,6 +47,6 @@ class AppFormatter {
       }
       i = end;
     }
-    return phoneNumber;
+    return formattedNumber.toString();
   }
 }
