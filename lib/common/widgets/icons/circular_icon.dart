@@ -35,7 +35,11 @@ class AppCilcularIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
       ),
       child: IconButton(
-          onPressed: onPressed, icon: Icon(icon, color: color, size: size)),
+          onPressed: onPressed,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          iconSize: size,
+          icon: Icon(icon, color: color)),
     );
   }
 }

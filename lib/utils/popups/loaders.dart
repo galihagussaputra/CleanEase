@@ -5,11 +5,16 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class AppLoaders {
-  static hideSnackBar() =>
-      ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
+  static void hideSnackBar() {
+    final context = Get.context;
+    if (context == null) return;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  }
 
-  static customToast({required message}) {
-    ScaffoldMessenger.of(Get.context!).showSnackBar(
+  static void customToast({required message}) {
+    final context = Get.context;
+    if (context == null) return;
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         elevation: 0,
         duration: const Duration(seconds: 3),
@@ -19,19 +24,21 @@ class AppLoaders {
           margin: const EdgeInsets.symmetric(horizontal: 30),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: AppHelperFunctions.isDarkMode(Get.context!)
+            color: AppHelperFunctions.isDarkMode(context)
                 ? AppColors.darkergrey.withOpacity(0.9)
                 : AppColors.grey.withOpacity(0.9),
           ),
           child: Center(
               child: Text(message,
-                  style: Theme.of(Get.context!).textTheme.labelLarge)),
+                  style: Theme.of(context).textTheme.labelLarge)),
         ),
       ),
     );
   }
 
-  static successSnackBar({required title, message = '', duration = 3}) {
+  static void successSnackBar(
+      {required title, message = '', duration = 3}) {
+    if (Get.context == null) return;
     Get.snackbar(
       title,
       message,
@@ -46,7 +53,8 @@ class AppLoaders {
     );
   }
 
-  static warningSnackBar({required title, message = ''}) {
+  static void warningSnackBar({required title, message = ''}) {
+    if (Get.context == null) return;
     Get.snackbar(
       title,
       message,
@@ -61,7 +69,8 @@ class AppLoaders {
     );
   }
 
-  static errorSnackBar({required title, message = ''}) {
+  static void errorSnackBar({required title, message = ''}) {
+    if (Get.context == null) return;
     Get.snackbar(
       title,
       message,

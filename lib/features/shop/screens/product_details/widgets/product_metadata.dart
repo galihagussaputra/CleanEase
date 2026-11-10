@@ -46,11 +46,11 @@ class AppProductMetaData extends StatelessWidget {
             const AppProductPriceText(price: '175', isLarge: true),
           ],
         ),
-        const SizedBox(width: AppSize.spaceBtwItems / 1.5),
+        const SizedBox(height: AppSize.spaceBtwItems / 1.5),
 
         // Title
         const AppProductTitleText(title: 'Green nike sport'),
-        const SizedBox(width: AppSize.spaceBtwItems / 1.5),
+        const SizedBox(height: AppSize.spaceBtwItems / 1.5),
 
         // stack status
         Row(
@@ -60,7 +60,7 @@ class AppProductMetaData extends StatelessWidget {
             Text('In Stock', style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
-        const SizedBox(width: AppSize.spaceBtwItems / 1.5),
+        const SizedBox(height: AppSize.spaceBtwItems / 1.5),
 
         //Brand
         Row(

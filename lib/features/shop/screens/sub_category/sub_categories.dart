@@ -33,7 +33,7 @@ class SubCategoryScreen extends StatelessWidget {
                   const SizedBox(height: AppSize.spaceBtwItems / 2),
 
                   SizedBox(
-                    height: 120,
+                    height: 128,
                     child: ListView.separated(
                         itemCount: 4,
                         scrollDirection: Axis.horizontal,

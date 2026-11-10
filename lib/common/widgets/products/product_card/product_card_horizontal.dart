@@ -35,8 +35,8 @@ class AppProductCardHorizontal extends StatelessWidget {
               children: [
                 // Thumbnail Image
                 const SizedBox(
-                  height: 120,
-                  width: 120,
+                  height: 104,
+                  width: 104,
                   child: AppRoundedImage(
                       imageUrl: AppImages.product1, applyImageRadius: true),
                 ),

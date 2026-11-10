@@ -88,9 +88,11 @@ class AppProductCardVertical extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: AppSize.sm),
-                  child: AppProductPriceText(price: '35.0'),
+                const Flexible(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: AppSize.sm),
+                    child: AppProductPriceText(price: '35.0'),
+                  ),
                 ),
 
                 //Add cart button

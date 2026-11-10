@@ -27,7 +27,7 @@ class AppCartItem extends StatelessWidget {
               : AppColors.light,
         ),
 
-        const SizedBox(height: AppSize.spaceBtwItems),
+        const SizedBox(width: AppSize.spaceBtwItems),
 
         // title price size
         Expanded(

@@ -1,6 +1,5 @@
 import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
-import 'package:clean_ease/utils/devices/device_utility.dart';
 import 'package:clean_ease/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -31,7 +30,7 @@ class AppSearchContainer extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: Container(
-          width: AppDeviceUtils.getScreenWidth(context),
+          width: double.infinity,
           padding: const EdgeInsets.all(AppSize.md),
           decoration: BoxDecoration(
             color: showBackground
@@ -46,7 +45,12 @@ class AppSearchContainer extends StatelessWidget {
             children: [
               Icon(icon, color: dark ? AppColors.darkergrey : Colors.grey),
               const SizedBox(width: AppSize.spaceBtwItems),
-              Text(text, style: Theme.of(context).textTheme.bodySmall),
+              Expanded(
+                child: Text(text,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall),
+              ),
             ],
           ),
         ),

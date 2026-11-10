@@ -5,14 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppFullScreenLoader {
+  static bool _isLoading = false;
+
   static void openLoadingDialog(String text, String animation) {
+    final context = Get.overlayContext;
+    if (_isLoading || context == null) return;
+    _isLoading = true;
+
     showDialog(
-      context: Get.overlayContext!,
+      context: context,
       barrierDismissible: false,
-      builder: (_) => PopScope(
+      builder: (dialogContext) => PopScope(
         canPop: false,
         child: Container(
-          color: AppHelperFunctions.isDarkMode(Get.context!)
+          color: AppHelperFunctions.isDarkMode(dialogContext)
               ? AppColors.dark
               : AppColors.white,
           width: double.infinity,
@@ -28,7 +34,13 @@ class AppFullScreenLoader {
     );
   }
 
-  static stopLoading() {
-    Navigator.of(Get.overlayContext!).pop();
+  static void stopLoading() {
+    if (!_isLoading) return;
+    _isLoading = false;
+
+    final context = Get.overlayContext;
+    if (context != null && Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
   }
 }

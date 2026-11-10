@@ -50,11 +50,17 @@ class AppCircularImage extends StatelessWidget {
                       const AppShimmerEffect(width: 55, height: 55),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 )
-              : Image(
-                  fit: fit,
-                  image: AssetImage(image),
-                  color: overlayColor,
-                ),
+              : image.isEmpty
+                  ? Icon(Icons.image_not_supported_outlined,
+                      color: overlayColor)
+                  : Image(
+                      fit: fit,
+                      image: AssetImage(image),
+                      color: overlayColor,
+                      errorBuilder: (_, __, ___) => Icon(
+                          Icons.image_not_supported_outlined,
+                          color: overlayColor),
+                    ),
         ),
       ),
     );
