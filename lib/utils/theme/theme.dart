@@ -5,6 +5,7 @@ import 'package:clean_ease/utils/theme/custom_themes/chip_theme.dart';
 import 'package:clean_ease/utils/theme/custom_themes/elevated_button_theme.dart';
 import 'package:clean_ease/utils/theme/custom_themes/outlined_button_theme.dart';
 import 'package:clean_ease/utils/theme/custom_themes/text_field_theme.dart';
+import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/theme/custom_themes/text_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +16,13 @@ class AppTheme {
     useMaterial3: true,
     fontFamily: 'Poppins',
     brightness: Brightness.light,
-    primaryColor: Colors.blue,
+    primaryColor: AppColors.primary,
     textTheme: AppTextTheme.lightTextTheme,
     chipTheme: AppChipTheme.lightChipTheme,
     scaffoldBackgroundColor: Colors.white,
-    appBarTheme: AppBar_Theme.lightAppBarTheme,
+    appBarTheme: AppBarCustomTheme.lightAppBarTheme,
     checkboxTheme: AppCheckboxTheme.lightCheckboxTheme,
-    bottomSheetTheme: BottomSheet_Theme.lightBottomSheetTheme,
+    bottomSheetTheme: BottomSheetCustomTheme.lightBottomSheetTheme,
     elevatedButtonTheme: AppElevatedButtonTheme.lightElevatedButtonTheme,
     outlinedButtonTheme: AppOutlineButtonTheme.lightOutlineButtonTheme,
     inputDecorationTheme: AppTextFieldTheme.lightInputDecorationTheme,
@@ -31,13 +32,13 @@ class AppTheme {
     useMaterial3: true,
     fontFamily: 'Poppins',
     brightness: Brightness.dark,
-    primaryColor: Colors.blue,
+    primaryColor: AppColors.primary,
     textTheme: AppTextTheme.darkTextTheme,
     chipTheme: AppChipTheme.darkChipTheme,
     scaffoldBackgroundColor: Colors.black,
-    appBarTheme: AppBar_Theme.darkAppBarTheme,
+    appBarTheme: AppBarCustomTheme.darkAppBarTheme,
     checkboxTheme: AppCheckboxTheme.darkCheckboxTheme,
-    bottomSheetTheme: BottomSheet_Theme.darkBottomSheetTheme,
+    bottomSheetTheme: BottomSheetCustomTheme.darkBottomSheetTheme,
     elevatedButtonTheme: AppElevatedButtonTheme.darkElevatedButtonTheme,
     outlinedButtonTheme: AppOutlineButtonTheme.darkOutlineButtonTheme,
     inputDecorationTheme: AppTextFieldTheme.darkInputDecorationTheme,

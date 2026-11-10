@@ -24,7 +24,7 @@ class AppTexts {
   static const String username = "Username";
   static const String phoneNo = "Phone Number";
   static const String rememberMe = "Remember Me";
-  static const String forgetPassword = "Forger Password";
+  static const String forgetPassword = "Forget Password";
   static const String signIn = "Sign In";
   static const String createAccount = "Create Account";
   static const String orSignInWith = "Or Sign In With";
