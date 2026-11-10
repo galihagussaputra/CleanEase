@@ -3,7 +3,7 @@ import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:clean_ease/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppOrderListItems extends StatelessWidget {
   const AppOrderListItems({super.key});
@@ -50,7 +50,7 @@ class AppOrderListItems extends StatelessWidget {
                 // Icon
                 IconButton(
                     onPressed: () {},
-                    icon: const Icon(Iconsax.arrow_right_34,
+                    icon: const Icon(Iconsax.arrow_right_3,
                         size: AppSize.iconSm)),
               ],
             ),

@@ -1,6 +1,6 @@
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppProfileMenu extends StatelessWidget {
   const AppProfileMenu({
@@ -8,7 +8,7 @@ class AppProfileMenu extends StatelessWidget {
     required this.onPressed,
     required this.title,
     required this.value,
-    this.icon = Iconsax.arrow_right_34,
+    this.icon = Iconsax.arrow_right_3,
   });
 
   final IconData icon;

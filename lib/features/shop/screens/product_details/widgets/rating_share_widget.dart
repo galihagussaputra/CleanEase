@@ -1,6 +1,6 @@
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppRatingAndShare extends StatelessWidget {
   const AppRatingAndShare({
@@ -15,7 +15,7 @@ class AppRatingAndShare extends StatelessWidget {
         // rating
         Row(
           children: [
-            const Icon(Iconsax.star5, color: Colors.amber, size: 24),
+            const Icon(Iconsax.star, color: Colors.amber, size: 24),
             const SizedBox(width: AppSize.spaceBtwItems / 2),
             Text.rich(
               TextSpan(

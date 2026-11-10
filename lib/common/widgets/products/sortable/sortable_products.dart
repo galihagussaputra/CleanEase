@@ -2,7 +2,7 @@ import 'package:clean_ease/common/widgets/layouts/grid_layout.dart';
 import 'package:clean_ease/common/widgets/products/product_card/product_card_vertical.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppSortableProducts extends StatelessWidget {
   const AppSortableProducts({

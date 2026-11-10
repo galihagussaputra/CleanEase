@@ -5,7 +5,7 @@ import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class UserAddressScreen extends StatelessWidget {
   const UserAddressScreen({super.key});

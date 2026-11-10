@@ -6,7 +6,7 @@ import 'package:clean_ease/features/shop/screens/home/home.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});

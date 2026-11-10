@@ -9,7 +9,7 @@ import 'package:clean_ease/utils/constants/image_strings.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:clean_ease/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppProductCardHorizontal extends StatelessWidget {
   const AppProductCardHorizontal({super.key});
@@ -62,7 +62,7 @@ class AppProductCardHorizontal extends StatelessWidget {
                     top: 0,
                     right: 0,
                     child: AppCilcularIcon(
-                        icon: Iconsax.heart5, color: Colors.red))
+                        icon: Iconsax.heart, color: Colors.red))
               ],
             ),
           ),

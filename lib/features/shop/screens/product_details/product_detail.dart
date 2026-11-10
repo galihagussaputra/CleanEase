@@ -8,7 +8,7 @@ import 'package:clean_ease/features/shop/screens/product_reviews/product_review.
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductDetailScreen extends StatelessWidget {

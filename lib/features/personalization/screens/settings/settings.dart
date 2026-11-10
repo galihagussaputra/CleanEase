@@ -12,7 +12,7 @@ import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:clean_ease/utils/popups/loaders.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});

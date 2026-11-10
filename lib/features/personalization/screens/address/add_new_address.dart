@@ -1,7 +1,7 @@
 import 'package:clean_ease/common/widgets/appbar/appbar.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AddNewAddressScreen extends StatelessWidget {
   const AddNewAddressScreen({super.key});
@@ -31,7 +31,7 @@ class AddNewAddressScreen extends StatelessWidget {
                     Expanded(
                         child: TextFormField(
                             decoration: const InputDecoration(
-                                prefixIcon: Icon(Iconsax.building_31),
+                                prefixIcon: Icon(Iconsax.building_3),
                                 labelText: 'Street'))),
                     const SizedBox(width: AppSize.spaceBtwInputFields),
                     Expanded(

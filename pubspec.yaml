@@ -16,7 +16,7 @@ dependencies:
   logger: ^2.0.1
   url_launcher: ^6.3.0
 
-  iconsax: ^0.0.8
+  iconsax_flutter: ^1.0.1
   cupertino_icons: ^1.0.8
   salomon_bottom_bar: ^3.3.2
   get: ^4.6.6

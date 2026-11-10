@@ -3,7 +3,7 @@ import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:clean_ease/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppSingleAddress extends StatelessWidget {
   const AppSingleAddress({super.key, required this.selectedAddress});
@@ -32,7 +32,7 @@ class AppSingleAddress extends StatelessWidget {
             right: 5,
             top: 0,
             child: Icon(
-              selectedAddress ? Iconsax.tick_circle5 : null,
+              selectedAddress ? Iconsax.tick_circle : null,
               color: selectedAddress
                   ? dark
                       ? AppColors.light

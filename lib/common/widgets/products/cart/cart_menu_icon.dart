@@ -2,7 +2,7 @@ import 'package:clean_ease/features/shop/screens/cart/cart.dart';
 import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/helpers/helper_function.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:flutter/material.dart';
 
 class AppCartCounterIcon extends StatelessWidget {

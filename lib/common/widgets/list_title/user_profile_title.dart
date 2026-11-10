@@ -3,7 +3,7 @@ import 'package:clean_ease/features/personalization/controller/user_controller.d
 import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/constants/image_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppUserProfileTitle extends StatelessWidget {
   const AppUserProfileTitle({

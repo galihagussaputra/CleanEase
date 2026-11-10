@@ -3,7 +3,7 @@ import 'package:clean_ease/utils/constants/colors.dart';
 import 'package:clean_ease/utils/constants/enums.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppBrandTitleVerifiedIcon extends StatelessWidget {
   const AppBrandTitleVerifiedIcon({
@@ -37,7 +37,7 @@ class AppBrandTitleVerifiedIcon extends StatelessWidget {
           ),
         ),
         const SizedBox(width: AppSize.xs),
-        Icon(Iconsax.verify5, color: iconColor, size: AppSize.iconXs),
+        Icon(Iconsax.verify, color: iconColor, size: AppSize.iconXs),
       ],
     );
   }

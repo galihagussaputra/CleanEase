@@ -7,7 +7,7 @@ import 'package:clean_ease/utils/constants/image_strings.dart';
 import 'package:clean_ease/utils/constants/sizes.dart';
 import 'package:clean_ease/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class AppProductImageSlider extends StatelessWidget {
   const AppProductImageSlider({
@@ -60,7 +60,7 @@ class AppProductImageSlider extends StatelessWidget {
             const AppsBar(
               showBackArrow: true,
               actions: [
-                AppCilcularIcon(icon: Iconsax.heart5, color: Colors.red)
+                AppCilcularIcon(icon: Iconsax.heart, color: Colors.red)
               ],
             ),
           ],
