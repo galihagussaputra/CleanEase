@@ -14,6 +14,13 @@ class UserRepository extends GetxController {
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  static const int _maxProfileImageBytes = 5 * 1024 * 1024;
+  static const Map<String, String> _profileImageExtensions = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+  };
+
   // Save data
   Future<void> saveUserRecord(UserModel user) async {
     try {
@@ -106,8 +113,19 @@ class UserRepository extends GetxController {
   // upload image
   Future<String> uploadImage(String path, XFile image) async {
     try {
-      final ref = FirebaseStorage.instance.ref(path).child(image.name);
-      await ref.putData(await image.readAsBytes());
+      final bytes = await image.readAsBytes();
+      if (bytes.isEmpty || bytes.length > _maxProfileImageBytes) {
+        throw 'Profile image must be smaller than 5 MB.';
+      }
+
+      final contentType = _resolveImageContentType(image);
+      final extension = _profileImageExtensions[contentType]!;
+      final fileName = '${DateTime.now().microsecondsSinceEpoch}.$extension';
+      final ref = FirebaseStorage.instance.ref(path).child(fileName);
+      await ref.putData(
+        bytes,
+        SettableMetadata(contentType: contentType),
+      );
       final url = await ref.getDownloadURL();
       return url;
     } on FirebaseException catch (e) {
@@ -117,7 +135,22 @@ class UserRepository extends GetxController {
     } on PlatformException catch (e) {
       throw AppPlatformException(e.code).message;
     } catch (e) {
+      if (e is String) rethrow;
       throw 'Something went wrong. Please try again';
     }
+  }
+
+  String _resolveImageContentType(XFile image) {
+    final mimeType = image.mimeType;
+    if (mimeType != null && _profileImageExtensions.containsKey(mimeType)) {
+      return mimeType;
+    }
+
+    final name = image.name.toLowerCase();
+    if (name.endsWith('.png')) return 'image/png';
+    if (name.endsWith('.webp')) return 'image/webp';
+    if (name.endsWith('.jpg') || name.endsWith('.jpeg')) return 'image/jpeg';
+
+    throw 'Unsupported image format. Use JPG, PNG, or WebP.';
   }
 }

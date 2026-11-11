@@ -180,8 +180,12 @@ class UserController extends GetxController {
           maxWidth: 512);
       if (image != null) {
         imageUploading.value = true;
-        final imageUrl =
-            await userRepository.uploadImage('Users/Images/Profile/', image);
+        final uid = AuthenticationRepository.instance.authUser?.uid;
+        if (uid == null) {
+          throw 'You must be signed in to update your profile picture.';
+        }
+        final imageUrl = await userRepository.uploadImage(
+            'Users/$uid/profile/', image);
 
         Map<String, dynamic> json = {'ProfilePicture': imageUrl};
         await userRepository.updateSingleField(json);
