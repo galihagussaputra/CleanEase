@@ -53,3 +53,14 @@ app.*.map.json
 *.keystore
 android/key.properties
 ios/Runner/GoogleService-Info.plist
+
+# Firebase tooling and emulator artifacts
+.firebase/
+firebase-debug.log
+firestore-debug.log
+storage-debug.log
+ui-debug.log
+database-debug.log
+node_modules/
+test/firebase/node_modules/
+functions/node_modules/

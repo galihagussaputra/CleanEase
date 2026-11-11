@@ -1,1 +1,55 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"cleanease-2a375","appId":"1:204534886892:android:87c6817a8c1effa7b510c9","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"cleanease-2a375","configurations":{"android":"1:204534886892:android:87c6817a8c1effa7b510c9","ios":"1:204534886892:ios:d52e7d5d017090c2b510c9","macos":"1:204534886892:ios:d52e7d5d017090c2b510c9","web":"1:204534886892:web:8d77166ab1612ee8b510c9","windows":"1:204534886892:web:d65654c78cd4026db510c9"}}}}}}
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "functions": {
+    "source": "functions",
+    "codebase": "default",
+    "runtime": "nodejs22"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "storage": {
+      "port": 9199
+    },
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
+    "singleProjectMode": true
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "cleanease-2a375",
+          "appId": "1:204534886892:android:87c6817a8c1effa7b510c9",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "cleanease-2a375",
+          "configurations": {
+            "android": "1:204534886892:android:87c6817a8c1effa7b510c9",
+            "ios": "1:204534886892:ios:d52e7d5d017090c2b510c9",
+            "macos": "1:204534886892:ios:d52e7d5d017090c2b510c9",
+            "web": "1:204534886892:web:8d77166ab1612ee8b510c9",
+            "windows": "1:204534886892:web:d65654c78cd4026db510c9"
+          }
+        }
+      }
+    }
+  }
+}
