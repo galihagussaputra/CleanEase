@@ -1,0 +1,67 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isValidString(value, maxLength) {
+      return value is string && value.size() <= maxLength;
+    }
+
+    function isValidProfile(data) {
+      return data.keys().hasAll([
+          'FirstName',
+          'LastName',
+          'Username',
+          'Email',
+          'PhoneNumber',
+          'ProfilePicture'
+        ])
+        && data.keys().hasOnly([
+          'FirstName',
+          'LastName',
+          'Username',
+          'Email',
+          'PhoneNumber',
+          'ProfilePicture'
+        ])
+        && isValidString(data.FirstName, 100)
+        && isValidString(data.LastName, 100)
+        && isValidString(data.Username, 100)
+        && isValidString(data.Email, 254)
+        && isValidString(data.PhoneNumber, 32)
+        && isValidString(data.ProfilePicture, 2048)
+        && (data.ProfilePicture == ''
+          || data.ProfilePicture.matches('https://.*'));
+    }
+
+    match /Users/{uid} {
+      allow get: if isOwner(uid);
+      allow list: if false;
+
+      allow create: if isOwner(uid)
+        && isValidProfile(request.resource.data);
+
+      allow update: if isOwner(uid)
+        && isValidProfile(request.resource.data)
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['FirstName', 'LastName', 'PhoneNumber', 'ProfilePicture']);
+
+      allow delete: if isOwner(uid);
+    }
+
+    match /_accountDeletionJobs/{uid} {
+      allow read, write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
