@@ -63,9 +63,31 @@ The HTTP helper and API constants are placeholders:
 
 No backend integration is implemented behind these placeholders.
 
-Firestore and Storage security rules are not part of this repository. Before deploying,
-review the rules configured in the Firebase console and restrict `Users` records and
-profile images to their authenticated owner.
+## Firebase security rules and tests
+
+`firestore.rules` and `storage.rules` are tracked in the repository:
+
+- Firestore `Users/{uid}` records are readable, writable, and deletable only by the
+  authenticated owner. Profile fields are type/length validated, and `Email` and
+  `Username` are immutable after creation.
+- Profile images use `Users/{uid}/profile/{filename}`. Writes require the authenticated
+  owner, a 5 MB size limit, and an allowed image MIME type. The legacy shared
+  `Users/Images/Profile/` path is not writable.
+- All other Firestore and Storage paths are denied by default.
+
+Run the rules tests against the Firebase Emulator Suite:
+
+```bash
+cd test/firebase
+npm install
+npx firebase-tools@15.35.0 emulators:exec \
+  --project demo-cleanease --only firestore,storage \
+  --config ../../firebase.json "npm test"
+```
+
+The account deletion Cloud Function in `functions/` is prepared for review but is not
+deployed and is not wired into the client yet. Do not deploy rules or functions without
+reviewing the deployment steps and taking a backup where appropriate.
 
 ## Testing
 
