@@ -64,3 +64,5 @@ database-debug.log
 node_modules/
 test/firebase/node_modules/
 functions/node_modules/
+# Widget Preview related
+.widget_preview/
