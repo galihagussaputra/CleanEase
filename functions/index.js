@@ -8,29 +8,6 @@ const db = admin.firestore();
 const bucket = admin.storage().bucket();
 const deletionJobs = db.collection('_accountDeletionJobs');
 
-function getLegacyProfilePath(url) {
-  if (typeof url !== 'string' || !url.startsWith('https://')) return null;
-
-  let parsed;
-  try {
-    parsed = new URL(url);
-  } catch {
-    return null;
-  }
-
-  const match = parsed.pathname.match(/^\/v0\/b\/([^/]+)\/o\/(.+)$/);
-  if (!match) return null;
-
-  const urlBucket = decodeURIComponent(match[1]);
-  if (urlBucket !== bucket.name) return null;
-
-  const objectPath = decodeURIComponent(match[2]);
-  if (!objectPath.startsWith('Users/Images/Profile/')) return null;
-  if (objectPath.includes('..')) return null;
-
-  return objectPath;
-}
-
 async function markRetryPending(jobRef, failures) {
   await jobRef.set(
     {
@@ -69,7 +46,6 @@ exports.deleteAccount = onCall(
 
     const existingJob = await jobRef.get();
     const existingData = existingJob.exists ? existingJob.data() : {};
-    let legacyProfilePath = existingData.legacyProfilePath || null;
 
     await jobRef.set(
       {
@@ -84,24 +60,6 @@ exports.deleteAccount = onCall(
 
     const storageFailures = [];
 
-    if (!legacyProfilePath) {
-      try {
-        const profileSnapshot = await userRef.get();
-        const profile = profileSnapshot.exists ? profileSnapshot.data() : null;
-        legacyProfilePath = getLegacyProfilePath(
-          profile && profile.ProfilePicture,
-        );
-        if (legacyProfilePath) {
-          await jobRef.set({ legacyProfilePath }, { merge: true });
-        }
-      } catch (error) {
-        storageFailures.push({
-          step: 'read-profile',
-          message: error.message,
-        });
-      }
-    }
-
     try {
       await bucket.deleteFiles({
         prefix: `Users/${uid}/profile/`,
@@ -112,17 +70,6 @@ exports.deleteAccount = onCall(
         step: 'delete-profile-prefix',
         message: error.message,
       });
-    }
-
-    if (legacyProfilePath) {
-      try {
-        await bucket.file(legacyProfilePath).delete({ ignoreNotFound: true });
-      } catch (error) {
-        storageFailures.push({
-          step: 'delete-legacy-profile',
-          message: error.message,
-        });
-      }
     }
 
     if (storageFailures.length > 0) {
