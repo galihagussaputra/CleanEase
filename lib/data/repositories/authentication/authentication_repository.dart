@@ -1,4 +1,3 @@
-import 'package:clean_ease/data/repositories/user/user_repository.dart';
 import 'package:clean_ease/features/authentication/screens/login/login.dart';
 import 'package:clean_ease/features/authentication/screens/onboarding/onboarding.dart';
 import 'package:clean_ease/features/authentication/screens/signup/verify_email.dart';
@@ -7,6 +6,7 @@ import 'package:clean_ease/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:clean_ease/utils/exceptions/firebase_exceptions.dart';
 import 'package:clean_ease/utils/exceptions/format_exceptions.dart';
 import 'package:clean_ease/utils/exceptions/platform_exceptions.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -214,10 +214,14 @@ class AuthenticationRepository extends GetxController {
   // delete account
   Future<void> deleteAccount() async {
     try {
-      final user = _auth.currentUser;
-      if (user == null) return;
-      await UserRepository.instance.removeUserRecord(user.uid);
-      await user.delete();
+      if (_auth.currentUser == null) return;
+      await FirebaseFunctions.instanceFor(region: 'us-central1')
+          .httpsCallable('deleteAccount')
+          .call<Map<String, dynamic>>();
+      await GoogleSignIn().signOut();
+      await _auth.signOut();
+    } on FirebaseFunctionsException catch (e) {
+      throw e.message ?? 'Something went wrong. Please try again.';
     } on FirebaseAuthException catch (e) {
       throw AppFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
