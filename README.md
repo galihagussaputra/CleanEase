@@ -18,7 +18,7 @@ repository does not include a commerce backend or payment processing.
 
 ## Tech stack
 
-- Flutter 3.24 / Dart 3.5
+- Flutter 3.47+ / Dart 3.13+ (validated with Flutter 3.50.0 / Dart 3.14.0)
 - GetX for state management, routing, and dependency injection
 - Firebase Auth, Cloud Firestore, and Firebase Storage
 - Google Sign-In
@@ -27,7 +27,8 @@ repository does not include a commerce backend or payment processing.
 
 ## Getting started
 
-1. Install a Flutter SDK that satisfies the constraints in `pubspec.yaml`.
+1. Install a Flutter SDK that satisfies the constraints in `pubspec.yaml` and the
+   current `pubspec.lock`.
 2. Fetch dependencies:
 
    ```bash
@@ -73,6 +74,9 @@ No backend integration is implemented behind these placeholders.
 - Profile images use `Users/{uid}/profile/{filename}`. Writes require the authenticated
   owner, a 5 MB size limit, and an allowed image MIME type. The legacy shared
   `Users/Images/Profile/` path is not writable.
+- Profile image download URLs contain bearer tokens, so anyone holding the URL can read
+  the image. Use owner-authorized Storage SDK reads if strict private-image access is
+  required.
 - All other Firestore and Storage paths are denied by default.
 
 Run the rules tests against the Firebase Emulator Suite:
@@ -85,9 +89,16 @@ npx firebase-tools@15.35.0 emulators:exec \
   --config ../../firebase.json "npm test"
 ```
 
-The account deletion Cloud Function in `functions/` is prepared for review but is not
-deployed and is not wired into the client yet. Do not deploy rules or functions without
-reviewing the deployment steps and taking a backup where appropriate.
+The Emulator Suite requires JDK 11 or newer on `PATH`; JDK 17 or 21 is recommended.
+
+The account deletion Cloud Function in `functions/` is wired into the client but is not
+deployed. It removes `Users/{uid}/profile/` objects and the user's Firestore data before
+deleting the Auth account. Legacy `Users/Images/Profile/` objects are intentionally left
+untouched because they cannot be safely attributed to the deleting user; migrate or
+remove them with an admin-side cleanup job. Deploying the legacy-path deny rule before
+existing app versions are retired will break profile uploads from those versions. Do not
+deploy rules or functions without reviewing the deployment steps and taking a backup
+where appropriate.
 
 ## Testing
 
@@ -113,9 +124,11 @@ build.
 ## Platform verification status
 
 - Web release build was verified with the standard icon tree shaker.
-- `flutter analyze` and `flutter test` are clean.
-- Android and iOS builds were not verified in this environment because Android SDK/Java
+- `flutter analyze` reports no errors or warnings; it reports 142 info-level
+  deprecation notices under Flutter 3.50. `flutter test` passes all 22 tests.
+- Android and iOS builds were not verified in this environment because the Android SDK
   and Xcode are unavailable.
+- Firebase Emulator rules tests pass 18/18 under Microsoft OpenJDK 21.0.13.
 - Firebase authentication and Google Sign-In require a configured Firebase project and a
   device or simulator; end-to-end auth flows were not executed here.
 
